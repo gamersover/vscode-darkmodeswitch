@@ -2,7 +2,7 @@
     "name": "darkmodeswitch",
 	"displayName": "darkmodeswitch",
 	"description": "switch between dark and light mode with one step",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "caoqinping",
 	"icon": "images/Yin_and_Yang_symbol.png",
 	"repository": "https://github.com/gamersover/vscode-darkmodeswitch",
