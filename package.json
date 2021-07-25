@@ -3,6 +3,8 @@
 	"displayName": "darkmodeswitch",
 	"description": "switch between dark and light mode with one step",
 	"version": "0.0.1",
+	"publisher": "caoqinping",
+	"icon": "images/Yin_and_Yang_symbol.png",
 	"engines": {
 		"vscode": "^1.58.0"
 	},
@@ -10,7 +12,7 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:darkmodeswitch.switchtheme"
+        "*"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -18,7 +20,7 @@
 			{
 				"command": "darkmodeswitch.switchtheme",
 				"key": "alt+x",
-				"when": "editorTextFocus"
+				"when": "true"
 			}
 		],
 		"commands": [
