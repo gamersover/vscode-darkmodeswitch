@@ -1,9 +1,11 @@
 # Change Log
 
-All notable changes to the "darkmodeswitch" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## v0.0.2
+- 更新使用说明
+- 去掉消息提醒
+- 修复：状态栏tooltips显示问题
 
-## [Unreleased]
+## v0.0.1
 
-- Initial release
+- 初次提交

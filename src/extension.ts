@@ -27,11 +27,13 @@ export function activate(context: vscode.ExtensionContext) {
 		let defaultTheme = vscode.workspace.getConfiguration("darkmodeswitch.defaultTheme");
 		if (isDark) {
 			workbench.update("colorTheme", defaultTheme.get("light"), true);
-			vscode.window.showInformationMessage("Switch to light mode");
+			isDark = false;
+			// vscode.window.showInformationMessage("Switch to light mode");
 		}
 		else {
 			workbench.update("colorTheme", defaultTheme.get("dark"), true);
-			vscode.window.showInformationMessage("Switch to dark mode");
+			isDark = true;
+			// vscode.window.showInformationMessage("Switch to dark mode");
 		}
 	}
 
