@@ -12,6 +12,17 @@ export function activate(context: vscode.ExtensionContext) {
 	let workbench = vscode.workspace.getConfiguration("workbench");
 	let isDark: boolean;
 	let myStatusBar: vscode.StatusBarItem;
+	let allThemes: String[] = [];
+
+	vscode.extensions.all.forEach(ext => {
+        const contributesThemes = ext.packageJSON.contributes ? (ext.packageJSON.contributes.themes ? ext.packageJSON.contributes.themes : undefined) : undefined;
+        if (contributesThemes) {
+            for (var i = 0; i < contributesThemes.length; i++) {
+                const label = contributesThemes[i].id ? contributesThemes[i].id : contributesThemes[i].label;
+                allThemes.push(label);
+             }
+        }
+    });
 
 	function getCurrMode() {
 		let currColorTheme = vscode.window.activeColorTheme;
@@ -26,15 +37,18 @@ export function activate(context: vscode.ExtensionContext) {
 	function switchColorTheme(): void {
 		let mysetting = vscode.workspace.getConfiguration("darkmodeswitch");
 		if (isDark) {
-			workbench.update("colorTheme", mysetting.defaultLightTheme, true);
-			if (workbench.get("colorTheme") !== mysetting.defaultLightTheme){
+			if (allThemes.includes(mysetting.defaultLightTheme)) {
+				workbench.update("colorTheme", mysetting.defaultLightTheme, true);
+			}
+			else {
 				workbench.update("colorTheme", "Default Light+", true);
 			}
 		}
 		else {
-			workbench.update("colorTheme", mysetting.defaultDarkTheme, true);
-			let currColorTheme = vscode.window.activeColorTheme;
-			if (workbench.get("colorTheme") !== mysetting.defaultDarkTheme){
+			if (allThemes.includes(mysetting.defaultDarkTheme)) {
+				workbench.update("colorTheme", mysetting.defaultDarkTheme, true);
+			}
+			else {
 				workbench.update("colorTheme", "Default Dark+", true);
 			}
 		}
