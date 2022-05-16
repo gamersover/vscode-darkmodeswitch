@@ -5,7 +5,7 @@ import * as vscode from 'vscode';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	
+
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
@@ -24,16 +24,19 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	function switchColorTheme(): void {
-		let defaultTheme = vscode.workspace.getConfiguration("darkmodeswitch.defaultTheme");
+		let mysetting = vscode.workspace.getConfiguration("darkmodeswitch");
 		if (isDark) {
-			workbench.update("colorTheme", defaultTheme.get("light"), true);
-			isDark = false;
-			// vscode.window.showInformationMessage("Switch to light mode");
+			workbench.update("colorTheme", mysetting.defaultLightTheme, true);
+			if (workbench.get("colorTheme") !== mysetting.defaultLightTheme){
+				workbench.update("colorTheme", "Default Light+", true);
+			}
 		}
 		else {
-			workbench.update("colorTheme", defaultTheme.get("dark"), true);
-			isDark = true;
-			// vscode.window.showInformationMessage("Switch to dark mode");
+			workbench.update("colorTheme", mysetting.defaultDarkTheme, true);
+			let currColorTheme = vscode.window.activeColorTheme;
+			if (workbench.get("colorTheme") !== mysetting.defaultDarkTheme){
+				workbench.update("colorTheme", "Default Dark+", true);
+			}
 		}
 	}
 
@@ -41,11 +44,11 @@ export function activate(context: vscode.ExtensionContext) {
 		if (isDark) {
 			myStatusBar.tooltip = 'Ligth Mode';
 		}
-		else{ 
+		else{
 			myStatusBar.tooltip = 'Dark Mode';
 		}
 	}
-	
+
 	let switchTheme = vscode.commands.registerCommand('darkmodeswitch.switchtheme', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
