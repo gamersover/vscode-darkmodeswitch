@@ -4,7 +4,7 @@
     "description": "switch between dark and light mode with one step",
     "version": "1.0.0",
     "publisher": "caoqinping",
-    "icon": "https://cdn.jsdelivr.net/gh/gamersover/vscode-darkmodeswitch@main/images/Yin_and_Yang_symbol.4nelqxjl5nu0.webp",
+    "icon": "images/Yin_and_Yang_symbol.png",
     "repository": "https://github.com/gamersover/vscode-darkmodeswitch",
     "engines": {
         "vscode": "^1.58.0"
@@ -27,7 +27,21 @@
         "commands": [
             {
                 "command": "darkmodeswitch.switchtheme",
-                "title": "Switch Theme"
+                "title": "Switch Theme",
+                "category": "darkmodeswitch",
+                "shortTitle": "switch theme between your light and dark theme"
+            },
+            {
+                "command": "darkmodeswitch.setlighttheme",
+                "title": "Set light theme",
+                "category": "darkmodeswitch",
+                "shortTitle": "set default light theme"
+            },
+            {
+                "command": "darkmodeswitch.setdarktheme",
+                "title": "Set dark theme",
+                "category": "darkmodeswitch",
+                "shortTitle": "set default dark theme"
             }
         ],
         "configuration": {

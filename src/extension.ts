@@ -12,14 +12,15 @@ export function activate(context: vscode.ExtensionContext) {
 	let workbench = vscode.workspace.getConfiguration("workbench");
 	let isDark: boolean;
 	let myStatusBar: vscode.StatusBarItem;
-	let allThemes: String[] = [];
+	let allThemes: {label: string, kind: string}[] = [];
 
 	vscode.extensions.all.forEach(ext => {
         const contributesThemes = ext.packageJSON.contributes ? (ext.packageJSON.contributes.themes ? ext.packageJSON.contributes.themes : undefined) : undefined;
         if (contributesThemes) {
             for (var i = 0; i < contributesThemes.length; i++) {
                 const label = contributesThemes[i].id ? contributesThemes[i].id : contributesThemes[i].label;
-                allThemes.push(label);
+				const kind = (contributesThemes[i].uiTheme === 'vs-dark') ? 'dark' : 'light';
+                allThemes.push({"label": label, "kind": kind});
              }
         }
     });
@@ -35,9 +36,9 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	function switchColorTheme(): void {
-		let mysetting = vscode.workspace.getConfiguration("darkmodeswitch");
+		var mysetting = vscode.workspace.getConfiguration("darkmodeswitch");
 		if (isDark) {
-			if (allThemes.includes(mysetting.defaultLightTheme)) {
+			if (allThemes.find(theme => theme.label===mysetting.defaultLightTheme)) {
 				workbench.update("colorTheme", mysetting.defaultLightTheme, true);
 			}
 			else {
@@ -45,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		}
 		else {
-			if (allThemes.includes(mysetting.defaultDarkTheme)) {
+			if (allThemes.find(theme => theme.label===mysetting.defaultDarkTheme)) {
 				workbench.update("colorTheme", mysetting.defaultDarkTheme, true);
 			}
 			else {
@@ -71,13 +72,43 @@ export function activate(context: vscode.ExtensionContext) {
 		updateStatusBar();
 	});
 
+	let setLightTheme = vscode.commands.registerCommand('darkmodeswitch.setlighttheme', ()=>{
+		var mysetting = vscode.workspace.getConfiguration("darkmodeswitch");
+		vscode.window.showQuickPick(allThemes.filter(item => item.kind === "light"),
+			{
+				placeHolder: "Select light theme",
+			}).then((selection)=>{
+			if (!selection) {
+				return;
+			}
+			else{
+				mysetting.update("defaultLightTheme", selection.label, true);
+			}
+		});
+	});
+
+	let setDarkTheme = vscode.commands.registerCommand('darkmodeswitch.setdarktheme', ()=>{
+		var mysetting = vscode.workspace.getConfiguration("darkmodeswitch");
+		vscode.window.showQuickPick(allThemes.filter(item => item.kind === "dark"),
+			{
+				placeHolder: "Select dark theme",
+			}).then((selection)=>{
+			if (!selection) {
+				return;
+			}
+			else{
+				mysetting.update("defaultDarkTheme", selection.label, true);
+			}
+		});
+	});
+
 	myStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
 	myStatusBar.text = `$(color-mode)`;
 	myStatusBar.command = 'darkmodeswitch.switchtheme';
 	getCurrMode();
 	updateStatusBar();
 	myStatusBar.show();
-	context.subscriptions.push(switchTheme, myStatusBar);
+	context.subscriptions.push(switchTheme, setLightTheme, setDarkTheme, myStatusBar);
 }
 
 // this method is called when your extension is deactivated
