@@ -12,14 +12,7 @@
 
 
 ## 自定义主题
-通过`文件->首选项->设置`搜索`darkmodeswitch`，在`setting.json`中添加
-```json
- "darkmodeswitch.defaultTheme": {
-    "light": "Default Light+",
-    "dark": "Monokai Pro (Filter Spectrum)"
-}
-```
-其中`light`为亮色主题名称，`dark`为暗色主题名称
+通过`文件->首选项->设置`搜索`darkmodeswitch`，可以通过GUI修改默认明亮主题
 
 * 提示：可以通过`ctrl+k ctrl+t`查看已安装的主题名称
 
